@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Zera Buttons -->
+        <Button
+            android:id="@+id/btnCaptureTestCase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📌 Capture Test Case Title" />
+
+        <Button
+            android:id="@+id/btnCapturePreconditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📋 Capture Pre-Conditions"
+            android:layout_marginTop="12dp" />
+
+        <!-- Step Input and Buttons -->
+        <EditText
+            android:id="@+id/editStepCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="Enter Number of Steps"
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btnGenerateSteps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🛠️ Generate Step Buttons"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/stepButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnCapture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📸 Capture Step Image"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnGenerateDoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📄 Generate Word Document"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/btnShareDoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔗 Share Document"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status will be shown here"
+            android:layout_marginTop="12dp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textZeraExtract"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zera extracted details will be shown here"
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</ScrollView>
