@@ -266,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
                 table.getRow(i).getCell(0).setText(labels[i]);
                 table.getRow(i).getCell(1).setText("");
             }
-
             for (XWPFTableRow row : table.getRows()) {
                 for (XWPFTableCell cell : row.getTableCells()) {
                     cell.getCTTc().addNewTcPr().addNewTcBorders().addNewBottom().setVal(STBorder.SINGLE);
