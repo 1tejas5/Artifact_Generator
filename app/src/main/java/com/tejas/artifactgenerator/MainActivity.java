@@ -4,46 +4,34 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicConvolve3x3;
 import android.view.View;
 import android.widget.*;
-
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
-
 import org.apache.poi.xwpf.usermodel.*;
 import org.apache.poi.util.Units;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
-
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private static final int REQUEST_IMAGE_TEST_CASE = 111;
     private static final int REQUEST_IMAGE_PRECONDITION = 112;
-
     private EditText editStepCount;
     private Button btnGenerateSteps, btnCapture, btnShareDoc, btnCaptureTestCase, btnCapturePreconditions;
     private LinearLayout stepButtonsLayout;
@@ -52,12 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private File photoFile;
     private File zeraPhotoFile;
     private File generatedDocFile;
-
     private Uri testCaseImageUri;
     private Uri preconditionImageUri;
-
     private final Map<Integer, List<String>> stepImages = new HashMap<>();
-
     private String testCaseId = "";
     private String testCaseTitle = "";
     private String testCasePreconditions = "";
@@ -189,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         List<String> images = stepImages.getOrDefault(selectedStep, new ArrayList<>());
         textStatus.setText("Step " + selectedStep + " selected\nCaptured images: " + images.size());
     }
-
     private void captureImage() {
         if (selectedStep == -1) {
             Toast.makeText(this, "Please select a step first", Toast.LENGTH_SHORT).show();
@@ -206,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to create image file", Toast.LENGTH_SHORT).show();
         }
     }
-
     private File createImageFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String fileName = "IMG_" + timestamp;
@@ -339,137 +322,8 @@ public class MainActivity extends AppCompatActivity {
                 "\uD83D\uDCCB Preconditions:\n" + testCasePreconditions;
         textZeraExtract.setText(finalText);
     }
-
-//    private void generateWordDocument () {
-//        try {
-//            XWPFDocument document = new XWPFDocument();
-//
-//            // First page table
-//            XWPFTable table = document.createTable(7, 2);
-//            table.setWidth("100%");
-//            String[] labels = {
-//                    "TCERID", "Title", "PCC Card No", "Login Details", "Device ID", "Pre-requisites", "Comments"
-//            };
-//
-//            for (int i = 0; i < labels.length; i++) {
-//                table.getRow(i).getCell(0).setText(labels[i]);
-//                table.getRow(i).getCell(1).setText("");
-//            }
-//            for (XWPFTableRow row : table.getRows()) {
-//                for (XWPFTableCell cell : row.getTableCells()) {
-//                    cell.getCTTc().addNewTcPr().addNewTcBorders().addNewBottom().setVal(STBorder.SINGLE);
-//                }
-//            }
-//
-//            document.createParagraph().setPageBreak(true);
-//
-//            for (int step : stepImages.keySet()) {
-//                List<String> images = stepImages.get(step);
-//
-//                XWPFParagraph stepTitle = document.createParagraph();
-//                stepTitle.setAlignment(ParagraphAlignment.LEFT);
-//                XWPFRun stepRun = stepTitle.createRun();
-//                stepRun.setBold(true);
-//                stepRun.setFontSize(14);
-//                stepRun.setText("Step " + step);
-//
-//                for (int i = 0; i < images.size(); i++) {
-//                    if (i % 2 == 0 && i != 0) {
-//                        document.createParagraph().setPageBreak(true);
-//                    }
-//
-//                    Bitmap original = BitmapFactory.decodeFile(images.get(i));
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    //Bitmap scaled = Bitmap.createScaledBitmap(original, 640, 480, true);
-//
-//                    int maxWidth = 950;
-//                    int maxHeight = 950;
-//
-//                    int originalWidth = original.getWidth();
-//                    int originalHeight = original.getHeight();
-//
-//                    float aspectRatio = (float) originalWidth / originalHeight;
-//
-//                    int scaledWidth, scaledHeight;
-//
-//                    if (originalWidth > originalHeight) {
-//                        // Landscape
-//                        scaledWidth = maxWidth;
-//                        scaledHeight = Math.round(maxWidth / aspectRatio);
-//                    } else {
-//                        // Portrait or square
-//                        scaledHeight = maxHeight;
-//                        scaledWidth = Math.round(maxHeight * aspectRatio);
-//                    }
-//
-//                    Bitmap scaled = Bitmap.createScaledBitmap(original, scaledWidth, scaledHeight, true);
-//
-//
-//                    scaled.compress(Bitmap.CompressFormat.JPEG, 95, baos);
-//
-//                    InputStream is = new ByteArrayInputStream(baos.toByteArray());
-//
-//                    XWPFParagraph imagePara = document.createParagraph();
-//                    imagePara.setAlignment(ParagraphAlignment.CENTER);
-//                    XWPFRun imageRun = imagePara.createRun();
-//                    // Calculate width and height in inches or cm (Word document uses inches)
-//                    float inchWidth = scaledWidth / 96f; // assuming 96 dpi screen
-//                    float inchHeight = scaledHeight / 96f;
-//
-//// Convert inches to EMU
-//                    int emuWidth = (int) (inchWidth * Units.EMU_PER_INCH);
-//                    int emuHeight = (int) (inchHeight * Units.EMU_PER_INCH);
-//
-//                    boolean wantsTwoImgs = stepToggleMap.getOrDefault(step, false);
-////                    if(!wantsTwoImgs) {
-////                        emuWidth = emuWidth / 2;
-////                        emuHeight = emuHeight / 2;
-////                    }else{
-////                        emuWidth = emuWidth;
-////                        emuHeight = emuHeight;
-////                    }
-//                    if (wantsTwoImgs) {
-//                        // Single image - full page
-//                        emuWidth = (int) (6.0 * Units.EMU_PER_INCH); // ~6 inches wide
-//                        emuHeight = (int) ((6.0 * scaledHeight / (float) scaledWidth) * Units.EMU_PER_INCH);
-//                    } else {
-//                        // Two images - fit both in one page
-//                        emuWidth = (int) (3.0 * Units.EMU_PER_INCH); // ~3 inches wide
-//                        emuHeight = (int) ((3.0 * scaledHeight / (float) scaledWidth) * Units.EMU_PER_INCH);
-//                    }
-//
-//
-//                    imageRun.addPicture(is, Document.PICTURE_TYPE_JPEG, "step_image.jpg", emuWidth, emuHeight);
-//
-//
-//                    is.close();
-//                }
-//
-//                document.createParagraph().setPageBreak(true);
-//            }
-//
-//            String fileName = "TestCaseSteps_" + System.currentTimeMillis() + ".docx";
-//            File file = new File(getExternalFilesDir(null), fileName);
-//            FileOutputStream out = new FileOutputStream(file);
-//            document.write(out);
-//            out.close();
-//            document.close();
-//
-//            generatedDocFile = file;
-//            btnShareDoc.setVisibility(View.VISIBLE);
-//
-//            Toast.makeText(this, "Word file saved under 10MB!", Toast.LENGTH_LONG).show();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, "Error generating Word doc", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-/// /////////////////////////////////////////
-
-private void generateWordDocument() {
-    try {
+    private void generateWordDocument() {
+        try {
         XWPFDocument document = new XWPFDocument();
 
         // First page table
@@ -483,6 +337,13 @@ private void generateWordDocument() {
         for (int i = 0; i < labels.length; i++) {
             table.getRow(i).getCell(0).setText(labels[i]);
             table.getRow(i).getCell(1).setText("");
+            if(labels[i].equals("TCERID"))
+                table.getRow(i).getCell(1).setText(testCaseId);
+            if(labels[i].equals("Title"))
+                table.getRow(i).getCell(1).setText(testCaseTitle);
+            if(labels[i].equals("Pre-requisites"))
+                table.getRow(i).getCell(1).setText(testCasePreconditions);
+
         }
 
         // Add bottom border to all cells
@@ -587,8 +448,11 @@ private void generateWordDocument() {
 
             document.createParagraph().setPageBreak(true);
         }
+            long millis = System.currentTimeMillis();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            String date = sdf.format(new Date(millis));
 
-        String fileName = "TestCaseSteps_" + System.currentTimeMillis() + ".docx";
+        String fileName = "C1_"+testCaseId+"_"+ date+"_Passed"+ ".docx";
         File file = new File(getExternalFilesDir(null), fileName);
         FileOutputStream out = new FileOutputStream(file);
         document.write(out);
@@ -605,9 +469,4 @@ private void generateWordDocument() {
         Toast.makeText(this, "Error generating Word doc", Toast.LENGTH_SHORT).show();
     }
 }
-
-
-
-
-
 }
