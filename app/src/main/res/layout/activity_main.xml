@@ -53,6 +53,13 @@
             android:text="📸 Capture Step Image"
             android:layout_marginTop="8dp"
             android:visibility="gone"/>
+        <Spinner
+            android:id="@+id/spinnerCasePrefix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:entries="@array/case_prefix_array" />
+
 
         <Button
             android:id="@+id/btnGenerateDoc"

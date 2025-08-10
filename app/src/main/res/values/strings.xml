@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ArtifactGenerator</string>
+
+    <string-array name="case_prefix_array">
+        <item>C1</item>
+        <item>C2</item>
+        <item>C3</item>
+    </string-array>
+
 </resources>

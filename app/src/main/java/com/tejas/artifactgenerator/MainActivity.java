@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -46,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private String testCaseId = "";
     private String testCaseTitle = "";
     private String testCasePreconditions = "";
+    private String selectedPrefix = "C1"; // default
+    private static final String PREFS_NAME = "TestCasePrefs";
+    private static final String KEY_SELECTED_PREFIX = "selectedPrefix";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,44 @@ public class MainActivity extends AppCompatActivity {
             }
             captureImage();
         });
+
+        Spinner spinnerCasePrefix = findViewById(R.id.spinnerCasePrefix);
+
+// Load saved prefix from SharedPreferences
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        selectedPrefix = prefs.getString(KEY_SELECTED_PREFIX, "C1");
+
+// Create adapter
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.case_prefix_array,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCasePrefix.setAdapter(adapter);
+
+// Set spinner to saved selection
+        int savedPosition = adapter.getPosition(selectedPrefix);
+        spinnerCasePrefix.setSelection(savedPosition);
+
+        spinnerCasePrefix.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedPrefix = parent.getItemAtPosition(position).toString();
+
+                // Save selection to SharedPreferences
+                SharedPreferences.Editor editor = getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit();
+                editor.putString(KEY_SELECTED_PREFIX, selectedPrefix);
+                editor.apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedPrefix = "C1";
+            }
+        });
+
+
 
         findViewById(R.id.btnGenerateDoc).setOnClickListener(v -> generateWordDocument());
 
@@ -452,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String date = sdf.format(new Date(millis));
 
-        String fileName = "C1_"+testCaseId+"_"+ date+"_Passed"+ ".docx";
+        String fileName = selectedPrefix +"_"+ testCaseId+"_"+ date+"_Passed"+ ".docx";
         File file = new File(getExternalFilesDir(null), fileName);
         FileOutputStream out = new FileOutputStream(file);
         document.write(out);
