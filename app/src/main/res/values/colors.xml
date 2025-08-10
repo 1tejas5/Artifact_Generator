@@ -2,4 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Backgrounds -->
+    <color name="background_light">#F9FAFB</color> <!-- Softer than pure white -->
+
+    <!-- Primary / Accent -->
+    <color name="primaryColor">#1976D2</color>  <!-- Blue primary -->
+    <color name="primaryDarkColor">#0D47A1</color>
+    <color name="secondaryColor">#0288D1</color> <!-- Secondary blue -->
+    <color name="accentColor">#388E3C</color>    <!-- Accent green -->
+
+    <!-- Text -->
+    <color name="textPrimary">#212121</color>    <!-- Dark grey for main text -->
+    <color name="textSecondary">#616161</color>  <!-- Grey for secondary text -->
+
+    <!-- Buttons -->
+    <color name="buttonText">#FFFFFF</color>
+
+    <!-- Card background -->
+    <color name="cardBackground">#FFFFFF</color>
+
 </resources>

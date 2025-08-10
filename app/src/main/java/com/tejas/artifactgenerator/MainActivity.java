@@ -10,11 +10,13 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.google.mlkit.vision.common.InputImage;
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         btnCapturePreconditions = findViewById(R.id.btnCapturePreconditions);
         stepButtonsLayout = findViewById(R.id.stepButtonsLayout);
         textStatus = findViewById(R.id.textStatus);
-        textZeraExtract = findViewById(R.id.textZeraExtract);
 
         btnGenerateSteps.setOnClickListener(v -> {
             String stepCountStr = editStepCount.getText().toString().trim();
@@ -97,10 +98,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.case_prefix_array,
-                android.R.layout.simple_spinner_item
+                R.layout.simple_spinner
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCasePrefix.setAdapter(adapter);
+
 
 // Set spinner to saved selection
         int savedPosition = adapter.getPosition(selectedPrefix);
@@ -194,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             // Toggle Switch
             Switch stepToggle = new Switch(this);
             stepToggle.setText("2 Imgs");
+            stepToggle.setTextColor(Color.RED);
             stepToggle.setChecked(false); // default is 1 image (unchecked)
 
             // Save toggle state to map
@@ -253,11 +256,7 @@ public class MainActivity extends AppCompatActivity {
 
             boolean wantsTwoImages = stepToggleMap.getOrDefault(selectedStep, false);
 
-            if (wantsTwoImages && images.size() == 1) {
-                // If toggle is ON and only 1 image exists, prompt again
-                Toast.makeText(this, "Capture second image for Step " + selectedStep, Toast.LENGTH_SHORT).show();
-                captureImage();  // automatically prompt again
-            }
+
 
         } else if (requestCode == REQUEST_IMAGE_TEST_CASE && resultCode == RESULT_OK) {
             processTestCaseImage(testCaseImageUri);
@@ -292,7 +291,6 @@ public class MainActivity extends AppCompatActivity {
                                     public void onTestCaseSelected(String id, String title) {
                                         testCaseId = id;
                                         testCaseTitle = title;
-                                        updateZeraTextResult();
                                     }
 
                                     @Override
@@ -310,12 +308,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
-
-
     private void processPreconditionImage(Uri uri) {
         try {
             InputImage image = InputImage.fromFilePath(this, uri);
@@ -344,7 +336,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onPreconditionSelected(String preconditionText) {
                                         testCasePreconditions = preconditionText;
-                                        updateZeraTextResult();
                                     }
                                 }
                         );
@@ -359,12 +350,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateZeraTextResult() {
-        String finalText = "\uD83D\uDD11 Test Case ID: " + testCaseId + "\n\n" +
-                "\uD83D\uDCCC Title: " + testCaseTitle + "\n\n" +
-                "\uD83D\uDCCB Preconditions:\n" + testCasePreconditions;
-        textZeraExtract.setText(finalText);
-    }
     private void generateWordDocument() {
         try {
         XWPFDocument document = new XWPFDocument();
@@ -373,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
         XWPFTable table = document.createTable(7, 2);
         table.setWidth("100%");
         String[] labels = {
-                "TCERID", "Title", "PCC Card No", "Login Details", "Device ID", "Pre-requisites", "Comments"
+                "TCERID", "Title", "Card No", "Login Details", "Device ID", "Pre-requisites", "Comments"
         };
 
         // Set label texts and empty right cells
@@ -420,11 +405,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Define max dimensions for resized bitmap to balance clarity and file size
-                final int maxWidth = 2072;
-                final int maxHeight = 3096;
+
 
                 int origWidth = original.getWidth();
                 int origHeight = original.getHeight();
+                final int maxWidth = origWidth-2000;
+                final int maxHeight = origHeight-2000;
+
+                Log.d("ImageInfo", "Original Width: " + origWidth + ", Original Height: " + origHeight);
 
                 float aspectRatio = (float) origWidth / origHeight;
                 int scaledWidth, scaledHeight;
@@ -464,10 +452,6 @@ public class MainActivity extends AppCompatActivity {
                 XWPFParagraph imagePara = document.createParagraph();
                 imagePara.setAlignment(ParagraphAlignment.CENTER);
                 XWPFRun imageRun = imagePara.createRun();
-
-                // Convert scaled pixel dimensions to inches (assuming 96 dpi), then to EMU for Word
-                float inchWidth = scaledWidth / 300f;
-                float inchHeight = scaledHeight / 300f;
 
                 int emuWidth, emuHeight;
                 boolean wantsTwoImgs = stepToggleMap.getOrDefault(step, false);

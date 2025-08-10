@@ -1,96 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_light">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="24dp"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Zera Buttons -->
-        <Button
-            android:id="@+id/btnCaptureTestCase"
+        <!-- Test Case Info Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📌 Capture Test Case Title" />
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/cardBackground"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-        <Button
-            android:id="@+id/btnCapturePreconditions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📋 Capture Pre-Conditions"
-            android:layout_marginTop="12dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <!-- Step Input and Buttons -->
-        <EditText
-            android:id="@+id/editStepCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="Enter Number of Steps"
-            android:layout_marginTop="16dp"/>
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:text="Test Case Details"
+                    android:textColor="@color/textPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-        <Button
-            android:id="@+id/btnGenerateSteps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="🛠️ Generate Step Buttons"
-            android:layout_marginTop="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCaptureTestCase"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_description"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Capture Test Case Title"
+                    android:layout_marginTop="8dp" />
 
-        <LinearLayout
-            android:id="@+id/stepButtonsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"/>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCapturePreconditions"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_list"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Capture Pre-Conditions"
+                    android:layout_marginTop="8dp" />
 
-        <Button
-            android:id="@+id/btnCapture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="📸 Capture Step Image"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
-        <Spinner
-            android:id="@+id/spinnerCasePrefix"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:entries="@array/case_prefix_array" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-
-        <Button
-            android:id="@+id/btnGenerateDoc"
+        <!-- Step Configuration Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="📄 Generate Word Document"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/cardBackground"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-        <Button
-            android:id="@+id/btnShareDoc"
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                    android:text="Step Configuration"
+                    android:textColor="@color/textPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="Enter Number of Steps"
+                    android:textColorHint="@color/primaryColor">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editStepCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textColor="@color/primaryColor"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGenerateSteps"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/accentColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_build"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Generate Step Buttons"
+                    android:layout_marginTop="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/stepButtonsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCapture"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/secondaryColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_camera"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Capture Step Image"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Document Actions Card with inline spinner -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="🔗 Share Document"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"/>
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/cardBackground"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
 
-        <TextView
-            android:id="@+id/textStatus"
+            <LinearLayout
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="Document Actions"
+                        android:textColor="@color/textPrimary"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCasePrefix"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:entries="@array/case_prefix_array"
+                        android:backgroundTint="@color/secondaryColor"
+                        android:paddingEnd="24dp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnGenerateDoc"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/primaryDarkColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_document"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Generate Word Document"
+                    android:layout_marginTop="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShareDoc"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/secondaryColor"
+                    android:textColor="@color/buttonText"
+                    app:icon="@drawable/ic_share"
+                    app:iconTint="@color/buttonText"
+                    app:iconGravity="textStart"
+                    android:text="Share Document"
+                    android:layout_marginTop="8dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Status Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status will be shown here"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp" />
+            android:backgroundTint="@color/cardBackground"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp">
 
-        <TextView
-            android:id="@+id/textZeraExtract"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Zera extracted details will be shown here"
-            android:layout_marginTop="8dp"
-            android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status will be shown here"
+                android:textSize="16sp"
+                android:textColor="@color/textSecondary"
+                android:padding="16dp" />
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
