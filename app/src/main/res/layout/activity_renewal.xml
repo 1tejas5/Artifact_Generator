@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/renew_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your subscription has expired.\nRenew for 1 Month (₹5)"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:padding="16dp" />
+
+    <Button
+        android:id="@+id/renewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Renew Subscription" />
+</LinearLayout>

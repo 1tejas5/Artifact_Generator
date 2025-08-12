@@ -129,6 +129,12 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.btnGenerateDoc).setOnClickListener(v -> generateWordDocument());
 
+        // Somewhere in MainActivity
+        findViewById(R.id.btnContactUs).setOnClickListener(
+                v -> startActivity(new Intent(MainActivity.this, ContactActivity.class))
+        );
+
+
         btnShareDoc.setOnClickListener(v -> {
             if (generatedDocFile != null && generatedDocFile.exists()) {
                 Uri uri = FileProvider.getUriForFile(this, getPackageName() + ".provider", generatedDocFile);

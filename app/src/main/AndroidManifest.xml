@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- Optional camera hardware feature, not required -->
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
 
     <application
         android:requestLegacyExternalStorage="true"
@@ -16,10 +21,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/AppTheme"
         tools:targetApi="31">
 
+        <!-- File provider for content sharing -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -29,17 +34,28 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <!-- Session check splash activity as starting point -->
         <activity
-            android:name=".MainActivity"
+            android:name=".SessionCheckActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Login activity -->
+        <activity android:name=".LoginActivity" android:exported="true" />
+
+        <!-- Main activity -->
+        <activity android:name=".MainActivity" android:exported="true" />
+
+        <!-- Other activities -->
+        <activity android:name=".SignupActivity" android:exported="true" />
+        <activity android:name=".RenewalActivity" android:exported="true"/>
+        <activity android:name=".ContactActivity" android:exported="true" />
+
     </application>
-
-
 
 </manifest>

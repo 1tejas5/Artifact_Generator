@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "823834487304",
+    "project_id": "artifact-generator15",
+    "storage_bucket": "artifact-generator15.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823834487304:android:baa2cb33c32f795e347fbd",
+        "android_client_info": {
+          "package_name": "com.tejas.artifactgenerator"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmyeoKq9ecUkZ9Bit8yAOFhGUL--3631g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
